@@ -1,26 +1,520 @@
 @import "tailwindcss";
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
+/* ✨ Force dark utilities to only apply when .dark is on <html> */
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  :not(.dark) .dark\:ring-gray-600\/40,
+  :not(.dark) [class*="dark\\:"],
+  :not(.dark) [class^="dark\\:"] {
+    /* Turn off all dark-prefixed rules unless `.dark` is present */
+    --tw-ring-color: initial !important;
+    color: inherit !important;
+    background: inherit !important;
   }
 }
 
+/* Professional Light Theme */
+:root {
+  /* Base colors */
+  --background: #f0f4ff;
+  --foreground: #1e293b;
+  --card-bg: #ffffff;
+  --card-bg-hover: #f1f5f9;
+  --card-border: #e2e8f0;
+  
+  /* Input elements */
+  --input-bg: #ffffff;
+  --input-border: #cbd5e1;
+  --input-focus: #4f46e5;
+  
+  /* Shadows */
+  --shadow-sm: 0 2px 4px rgba(15, 23, 42, 0.06);
+  --shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+  --shadow-lg: 0 10px 25px rgba(15, 23, 42, 0.12);
+  --shadow-glow: 0 0 15px rgba(79, 70, 229, 0.2);
+  
+  /* Text colors */
+  --text-primary: #1e293b;
+  --text-secondary: #475569;
+  --text-tertiary: #64748b;
+  --text-muted: #94a3b8;
+  
+  /* Accent colors */
+  --accent-primary: #4f46e5;
+  --accent-primary-hover: #4338ca;
+  --accent-secondary: #0ea5e9;
+  --accent-secondary-hover: #0284c7;
+  
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  --gradient-secondary: linear-gradient(135deg, #0ea5e9 0%, #2dd4bf 100%);
+  --gradient-subtle: linear-gradient(135deg, #f0f4ff 0%, #e0e7ff 100%);
+  --gradient-card: linear-gradient(145deg, rgba(255, 255, 255, 0.97), rgba(255, 255, 255, 0.92));
+  
+  /* Status colors */
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef4444;
+  --info: #3b82f6;
+}
+
+/* Professional Dark Theme */
+.dark {
+  /* Base colors */
+  --background: #000000;
+  --foreground: #ffffff;
+  --card-bg: #0a0a0a;
+  --card-bg-hover: #1a1a1a;
+  --card-border: #2a2a2a;
+  
+  /* Input elements */
+  --input-bg: #0f0f0f;
+  --input-border: #2a2a2a;
+  --input-focus: #6366f1;
+  
+  /* Shadows */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.25);
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.45);
+  --shadow-glow: 0 0 20px rgba(255, 255, 255, 0.5);
+  
+  /* Text colors */
+  --text-primary: #ffffff;
+  --text-secondary: #e0e0e0;
+  --text-tertiary: #a0a0a0;
+  --text-muted: #707070;
+  
+  /* Accent colors */
+  --accent-primary: #818cf8;
+  --accent-primary-hover: #a5b4fc;
+  --accent-secondary: #60a5fa;
+  --accent-secondary-hover: #93c5fd;
+  
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, #818cf8 0%, #a855f7 100%);
+  --gradient-secondary: linear-gradient(135deg, #60a5fa 0%, #34d399 100%);
+  --gradient-subtle: linear-gradient(135deg, #0a0a0a 0%, #000000 100%);
+  --gradient-card: linear-gradient(145deg, rgba(10, 10, 10, 0.95), rgba(0, 0, 0, 0.85));
+}
+
+/* Base styles */
+html {
+  background-color: var(--background);
+  scroll-behavior: smooth;
+}
+
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  line-height: 1.5;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  padding-top: 1rem;
+}
+
+/* Navigation spacing */
+.min-h-screen.pt-16 {
+  padding-top: 5rem !important;
+}
+
+@media (max-width: 768px) {
+  .min-h-screen.pt-16 {
+    padding-top: 4rem !important;
+  }
+}
+/* placeholder text for inputs */
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-tertiary);
+  opacity: 1;
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: var(--text-tertiary);
+  opacity: 0.8;
+}
+
+/* Logo styling */
+.logo {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.logo::before {
+  content: '';
+  position: absolute;
+  width: 2rem;
+  height: 2rem;
+  background: var(--gradient-primary);
+  border-radius: 0.5rem;
+  transform: rotate(45deg);
+  z-index: -1;
+  opacity: 0.8;
+  transition: transform 0.3s ease;
+}
+
+.logo:hover::before {
+  transform: rotate(45deg) scale(1.1);
+}
+
+.logo span {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-left: 0.5rem;
+}
+
+/* Logo styling */
+.logo {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  transition: opacity 0.2s ease;
+}
+
+.logo:hover {
+  opacity: 0.9;
+}
+
+.dark .logo {
+  background: var(--gradient-secondary);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+/* Mobile navigation styles */
+@media (max-width: 768px) {
+  .nav-menu {
+    display: none;
+    position: fixed;
+    top: 60px;
+    left: 0;
+    right: 0;
+    background: rgba(var(--card-bg), 0.8);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 1rem;
+    border-bottom: 1px solid var(--card-border);
+    box-shadow: var(--shadow);
+    z-index: 50;
+  }
+
+  .dark .nav-menu {
+    background: var(--card-bg) !important;
+  }
+}
+
+.dark .nav-menu {
+  background: linear-gradient(145deg, #1e293b, #0f172a) !important;
+  border-top: 1px solid var(--card-border);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Navigation button styles */
+.dark .nav-button {
+  background: var(--gradient-primary) !important;
+  color: #ffffff !important;
+  border: none;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.dark .nav-button:hover {
+  opacity: 0.9;
+  box-shadow: var(--shadow-lg);
+}
+
+/* Card spacing and borders */
+.dark .card + .card {
+  margin-top: 2rem;
+}
+
+.dark .section-divider {
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  margin: 2rem 0;
+}
+
+/* Enhanced button text contrast */
+.dark .text-blue-600 {
+  color: #ffffff !important;
+}
+
+.dark .hover\:text-blue-700:hover {
+  color: #ffffff !important;
+  opacity: 0.9;
+}
+
+/* Mobile navigation styles */
+@media (max-width: 768px) {
+  .nav-menu {
+    display: none;
+    position: fixed;
+    top: 60px;
+    left: 0;
+    right: 0;
+    background: var(--card-bg);
+    padding: 1rem;
+    border-bottom: 1px solid var(--card-border);
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .theme-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    background: var(--card-bg-hover);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .theme-toggle:hover {
+    background: var(--card-bg);
+  }
+
+  .nav-menu.open {
+    display: flex;
+  }
+
+  .hamburger {
+    display: block;
+  }
+}
+
+.dark .bg-white,
+.dark .bg-gray-900,
+.dark .bg-gray-800,
+.dark .bg-gray-50,
+.dark .bg-gray-100 {
+  background: linear-gradient(145deg, #1e293b, #0f172a) !important;
+  border: 1px solid var(--card-border);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+p {
+  color: var(--text-secondary);
+}
+
+/* Links */
+a {
+  color: var(--accent-primary);
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+a:hover {
+  color: var(--accent-primary-hover);
+}
+link {
+  color: white;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+link:hover {
+  color: var(--accent-primary-hover);
+}
+nav-link {
+  color: var(--accent-primary) !important;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+nav-link:hover {
+  color: var(--accent-primary-hover);
+}
+/* Buttons 
+na*/
+button, .btn {
+  transition: all 0.2s ease;
+}
+
+/* Cards */
+.card, .bg-white, .bg-gray-50, .bg-gray-100 {
+  background-color: var(--card-bg) !important;
+  border: 1px solid var(--card-border) !important;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+.card:hover, .hover-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow);
+  border-color: var(--accent-primary) !important;
+}
+
+/* Hero section cards */
+.rounded-xl.bg-white\/90,
+.rounded-xl.dark\:bg-gray-800\/90 {
+  background: var(--gradient-card) !important;
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--shadow-lg);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+
+/* Light theme specific card styling */
+:root .rounded-xl.bg-white\/90 {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.97), rgba(248, 250, 252, 0.92)) !important;
+  border: 1px solid rgba(226, 232, 240, 0.6);
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+}
+
+.rounded-xl.bg-white\/90:hover, .rounded-xl.dark\:bg-gray-800\/90:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-glow);
+}
+
+/* Backgrounds */
+.bg-white {
+  background-color: var(--card-bg) !important;
+}
+
+.dark .bg-gray-900 {
+  background: linear-gradient(to bottom, var(--card-bg), var(--background)) !important;
+}
+
+.dark .bg-gray-800 {
+  background: linear-gradient(to bottom, var(--card-bg), var(--background)) !important;
+  border-top: 1px solid var(--card-border);
+  border-bottom: 1px solid var(--card-border);
+}
+
+.bg-gray-50, .bg-gray-100 {
+  background: var(--gradient-subtle) !important;
+}
+
+/* Hero sections with gradients */
+.bg-gradient-to-br {
+  background: var(--gradient-subtle) !important;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Text colors */
+.text-gray-600, .text-gray-500, .text-gray-700, .text-gray-800 {
+  color: var(--text-secondary) !important;
+}
+
+.dark .text-gray-300, .dark .text-gray-400, .dark .text-gray-200 {
+  color: var(--text-secondary) !important;
+}
+
+/* Form elements */
+input, textarea, select {
+  background-color: var(--input-bg) !important;
+  border: 1px solid var(--input-border) !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input:focus, textarea:focus, select:focus {
+  border-color: var(--input-focus) !important;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+/* Buttons */
+.bg-blue-600 {
+  background: var(--gradient-primary) !important;
+  border: none;
+  box-shadow: var(--shadow);
+}
+
+.hover\:bg-blue-700:hover {
+  background: var(--gradient-primary) !important;
+  opacity: 0.9;
+  box-shadow: var(--shadow-lg);
+}
+
+/* Navbar and footer */
+nav, footer {
+  background-color: var(--background);
+  border-bottom: 1px solid var(--card-border);
+  backdrop-filter: blur(10px);
+  transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
+}
+
+/* Animations */
+.transition-all {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--text-tertiary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
+
+/* Utility classes */
+.text-gradient {
+  background-image: var(--gradient-primary);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  display: inline-block;
+}
+
+.bg-gradient {
+  background-image: var(--gradient-primary);
+}
+
+.bg-gradient-secondary {
+  background-image: var(--gradient-secondary);
+}
+
+/* Star glow effect */
+.shadow-glow {
+  box-shadow: 0 0 20px rgba(219, 234, 254, 0.7), 0 0 40px rgba(219, 234, 254, 0.5);
+}
+
+/* Dark theme specific glow effect */
+.dark .shadow-glow {
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.6), 0 0 40px rgba(255, 255, 255, 0.4);
+}
+
+/* Enhanced hover glow for dark theme hero cards */
+.dark .rounded-xl.bg-white\/90:hover, 
+.dark .rounded-xl.dark\:bg-gray-800\/90:hover {
+  box-shadow: var(--shadow-glow), 0 0 30px rgba(255, 255, 255, 0.3);
+}
+.text-blue-600, .text-blue-700 {
+  color: var(--text-primary) !important;
+}
+
+.hover\:text-blue-700:hover {
+  color: var(--text-primary) !important;
+}
+
+.dark .text-blue-600, .dark .text-blue-700 {
+  color: var(--text-primary) !important;
+}
+
+.dark .hover\:text-blue-700:hover {
+  color: var(--text-primary) !important;
+  opacity: 0.9;
 }
