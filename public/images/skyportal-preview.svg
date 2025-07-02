@@ -1,0 +1,29 @@
+<svg width="800" height="450" viewBox="0 0 800 450" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Pattern -->
+  <rect width="800" height="450" fill="#F8FAFC"/>
+  <path d="M0 0L800 450M800 0L0 450" stroke="#E2E8F0" stroke-width="1.5"/>
+  
+  <!-- Website Frame -->
+  <rect x="100" y="50" width="600" height="350" rx="8" fill="white" stroke="#CBD5E1" stroke-width="2"/>
+  
+  <!-- Navigation Bar -->
+  <rect x="100" y="50" width="600" height="50" rx="8" fill="#1E40AF"/>
+  <circle cx="130" cy="75" r="6" fill="white"/>
+  <rect x="150" y="70" width="40" height="10" rx="2" fill="white"/>
+  <rect x="200" y="70" width="40" height="10" rx="2" fill="white" fill-opacity="0.7"/>
+  <rect x="250" y="70" width="40" height="10" rx="2" fill="white" fill-opacity="0.7"/>
+  
+  <!-- Content Area -->
+  <rect x="120" y="120" width="300" height="40" rx="4" fill="#1E40AF"/>
+  <rect x="120" y="170" width="250" height="10" rx="2" fill="#64748B"/>
+  <rect x="120" y="190" width="200" height="10" rx="2" fill="#64748B"/>
+  
+  <!-- Feature Boxes -->
+  <rect x="120" y="230" width="180" height="100" rx="4" fill="#EFF6FF" stroke="#93C5FD" stroke-width="2"/>
+  <rect x="320" y="230" width="180" height="100" rx="4" fill="#EFF6FF" stroke="#93C5FD" stroke-width="2"/>
+  <rect x="520" y="230" width="160" height="100" rx="4" fill="#EFF6FF" stroke="#93C5FD" stroke-width="2"/>
+  
+  <!-- Decorative Elements -->
+  <circle cx="700" cy="350" r="80" fill="#BFDBFE" fill-opacity="0.3"/>
+  <circle cx="100" cy="100" r="60" fill="#BFDBFE" fill-opacity="0.3"/>
+</svg>

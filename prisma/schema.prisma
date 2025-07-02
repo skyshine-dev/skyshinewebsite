@@ -1,0 +1,112 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model BlogPost {
+  id         String   @id @default(uuid())
+  title      String
+  category   String
+  excerpt    String   @db.Text
+  content    String   @db.LongText
+  author     String
+  date       DateTime @default(now())
+  slug       String   @unique
+  imagePath  String?
+  isFeatured Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Product {
+  id               String   @id
+  title            String
+  description      String   @db.Text 
+  icon             String
+  heroImageUrl     String
+  keyFeatures      Json      // array of { number, title, desc }
+  platformExamples Json      // exactly 5 objects { label, url }
+  testimonials     Json      // array of { quote, author, role }
+
+  previewDescription String   @db.Text 
+  ctaHeading         String
+  ctaDescription     String
+   ctaImageUrl          String?   // ← newly added
+   href                  String?
+
+  // ───────── NEW “Homepage” fields ─────────
+  tagline            String      // e.g. "Your Intelligent WhatsApp-Style Business Companion"
+  highlights         Json        // e.g. ["Task automation and smart reminders", …]
+  homepageImageUrl   String      // e.g. "/uploads/bizmate-home.png"
+  isFeaturedOnHomePage Boolean   @default(false)
+
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+model Project {
+  id           String   @id @default(uuid())
+  title        String
+  slug         String   @unique
+  category     String?
+  description  String   @db.Text
+  fullDesc     String   @db.LongText
+  previewImage String
+  tools        Json
+  features     Json
+  examples     Json
+  statistics   Json
+  testimonial  Json
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+model Projects {
+  /// ───────── Hero Section ─────────
+  id            String   @id @default(uuid())
+  title         String                      // Hero heading
+  tagline       String                      // Hero subtitle
+  description   String   @db.Text           // Hero short description
+  previewImage  String                      // Hero image (banner)
+
+  /// ───────── Meta ─────────
+  slug          String   @unique
+  category      String?
+  isActive      Boolean  @default(true)
+
+  /// ───────── Section Blocks ─────────
+  problemSolution     Json
+  proofOfConcept      Json
+  experienceSection   Json
+  modulesSection      Json
+  processSection      Json
+  ctaSection          Json
+  impactSection       Json      // bullets[] + image[] section
+  statisticsSection   Json
+  testimonialsSection Json
+  techStackSection    Json
+
+  /// ───────── Timestamps ─────────
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Job {
+  id           String   @id @default(uuid())
+  title        String
+  company      String
+  location     String
+  type         String
+  description  String   @db.LongText
+  requirements String   @db.Text
+  salary       String?
+  contactEmail String
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
